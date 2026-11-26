@@ -1,0 +1,154 @@
+.partners {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.partners__heading {
+  margin: 0 0 1.5rem;
+}
+
+.partners__groups {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.partners__group {
+  min-width: 0;
+  border-top: 2px solid var(--color-ink);
+  padding-top: 1rem;
+}
+
+.partners__group-heading {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.partners__belt {
+  overflow: hidden;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.partners__track {
+  display: flex;
+  width: max-content;
+  animation-duration: 36s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.partners__track--forward {
+  animation-name: partners-belt-forward;
+}
+
+.partners__track--reverse {
+  animation-name: partners-belt-reverse;
+}
+
+.partners__belt:hover .partners__track {
+  animation-play-state: paused;
+}
+
+.partners__belt-group {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.partners__logo-slot {
+  min-height: 126px;
+  flex: 0 0 clamp(10rem, 20vw, 14rem);
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--color-ink);
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  box-shadow: 5px 5px 0 var(--color-ink);
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.partners__logo-slot--partner {
+  grid-template-rows: minmax(74px, 1fr) auto;
+  gap: 0.4rem;
+  padding: 0.65rem;
+  text-align: center;
+}
+
+.partners__logo {
+  width: 10rem;
+  max-width: 100%;
+  height: 5rem;
+  object-fit: contain;
+  border-radius: 0.25rem;
+}
+
+.partners__name {
+  font-size: 0.78rem;
+  line-height: 1.2;
+  color: var(--color-ink);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+@keyframes partners-belt-forward {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes partners-belt-reverse {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (width < 48rem) {
+  .partners {
+    padding: 1.5rem 1rem;
+  }
+
+  .partners__heading {
+    margin-bottom: 1rem;
+  }
+
+  .partners__logo-slot {
+    flex-basis: 10rem;
+    min-height: 116px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners__track {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+
+  .partners__belt-group[aria-hidden='true'] {
+    display: none;
+  }
+
+  .partners__belt {
+    overflow-x: auto;
+  }
+}

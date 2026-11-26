@@ -1,0 +1,42 @@
+import { useEffect } from 'react'
+import PageSection from '../components/PageSection.jsx'
+import Hero from '../sections/home/Hero.jsx'
+import About from './About.jsx'
+import { sections, scrollToSection } from '../siteSections.js'
+import JoinUs from './JoinUs.jsx'
+import Events from '../sections/events/Events.jsx'
+import Blogs from '../sections/blogs/Blogs.jsx'
+import usePageTitle from '../components/usePageTitle.js'
+
+// The whole site: one scrolling page, sections in nav order.
+function Home() {
+  usePageTitle(null) // just "SheBuilds Tamil Nadu"
+
+  // Deep links (/#events, or /about redirected here) land on their section
+  useEffect(() => {
+    const id = window.location.hash.slice(1)
+    if (sections.some((s) => s.id === id)) scrollToSection(id, { instant: true, focus: false })
+  }, [])
+
+  return (
+    <>
+      <PageSection id="home" revealOn="load">
+        <Hero />
+      </PageSection>
+      <PageSection id="about">
+        <About />
+      </PageSection>
+      <PageSection id="join">
+        <JoinUs/>
+      </PageSection>
+      <PageSection id="events">
+        <Events />
+      </PageSection>
+      <PageSection id="blogs">
+        <Blogs />
+      </PageSection>
+    </>
+  )
+}
+
+export default Home

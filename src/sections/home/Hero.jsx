@@ -1,0 +1,56 @@
+import HeroBadges from './HeroBadges.jsx'
+import CharacterLoop from '../../components/CharacterLoop.jsx'
+import '../../components/CharacterArt.css'
+import SocialLinks from '../../components/SocialLinks.jsx'
+
+function Hero() {
+  return (
+    // Outer padding leaves room for badges to overhang the frame without clipping
+    <section aria-labelledby="hero-heading" className="px-6 py-10 md:px-12 md:py-12">
+      <div className="hero-frame grid grid-cols-1 lg:grid-cols-2 gap-x-8 items-center p-6 md:p-10 lg:p-14">
+        <div className="flex flex-col items-start gap-4">
+          <h1 id="hero-heading" className="flex flex-col gap-1" data-reveal>
+            <span className="text-primary font-bold leading-none text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+              SheBuilds
+            </span>
+            <span className="text-foreground font-normal uppercase leading-tight text-2xl md:text-3xl lg:text-4xl">
+              Tamilnadu
+            </span>
+          </h1>
+
+          <p className="font-body text-muted text-base md:text-lg" data-reveal>
+          </p>
+
+          <div data-reveal>
+            <a
+              href="https://chat.whatsapp.com/HIMc0a2cYliIEDqTgmETOX"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block font-body font-semibold text-white bg-secondary rounded-full px-6 py-3 shadow-lg hover:shadow-xl transition"
+            >
+              Join the community <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          {/* Same links as the footer. mt-4 + the column's gap-4 = the 32px between the headline
+              and the button (which has two gap-4s around the empty paragraph) */}
+          <SocialLinks nav className="mt-4" />
+        </div>
+
+        {/* character-art keeps the slot's size and spacing; CharacterLoop fills it */}
+        <div className="character-art" data-reveal>
+          <CharacterLoop
+            still="/character/builder-1100.webp"
+            video="/character/builder-loop.webm"
+            alt="Illustration of a young woman typing at a desk with a laptop, a plant and toy blocks"
+            priority
+          />
+        </div>
+
+        <HeroBadges />
+      </div>
+    </section>
+  )
+}
+
+export default Hero

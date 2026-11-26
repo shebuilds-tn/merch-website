@@ -1,0 +1,116 @@
+/* Root container for About page */
+.about {
+  --about-container: 1400px;
+
+  /* Typography tokens (scoped only to About page) */
+  --font-display: 'Space Grotesk Variable', system-ui, sans-serif;
+}
+
+/* ---------- Intro Section ---------- */
+
+.about__intro {
+  max-width: var(--about-container);
+  margin: 0 auto;
+  padding: 3rem 2rem 0;
+}
+
+/* Headings (shared style with Journey) */
+.about__heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+}
+
+/* Main heading */
+.about__heading {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 4vw, 3rem); /* reduced slightly */
+}
+
+/* Paragraph text (FIXED — smaller & cleaner) */
+.about__intro p {
+  max-width: 65ch;
+  margin: 0 0 0.75rem;
+
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem); /* reduced */
+  font-weight: 400; /* lighter */
+  line-height: 1.5;
+
+  color: var(--color-ink);
+}
+
+/* ---------- Top row: intro text + character (About only) ----------
+   Below lg: text, then the character underneath (CharacterArt sets its own 24px/32px margins, so
+   no row gap here). lg and up: two columns in one row, centred; the character sits top-right.
+   The remaining ~5% between the columns is at least 48px at 1024px (min 32px required), and
+   Journey's own 3rem top padding keeps the timeline 48px below the row. */
+.about__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center; /* the content block sits in the middle of the screen */
+  /* One screen below the sticky navbar (--nav-height is measured by Navbar.jsx). min-height,
+     so a short phone can still grow instead of clipping */
+  min-height: calc(100vh - var(--nav-height, 0px));
+  min-height: calc(100svh - var(--nav-height, 0px));
+}
+
+/* ---------- Journey screen: starts like a new page under the intro ----------
+   Still inside the #about section, so the navbar keeps "About us" active while it's on screen.
+   No scroll-margin-top: html's scroll-padding-top already keeps #journey clear of the navbar,
+   and adding both would leave a double gap. */
+.about__journey {
+  display: grid;
+  align-content: center; /* the Journey sits in the middle of its screen */
+  min-height: calc(100vh - var(--nav-height, 0px));
+  min-height: calc(100svh - var(--nav-height, 0px));
+  border-top: 2px solid var(--color-ink);
+}
+
+/* .journey centres itself with auto side margins; keep it full width inside the grid */
+.about__journey > .journey {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (min-width: 64rem) {
+  .about__top {
+    grid-template-columns: minmax(0, 55%) minmax(0, 40%);
+    justify-content: space-between; /* the remaining ~5% becomes the gap */
+    align-items: center;            /* character vertically centred beside the text */
+  }
+
+  .about__top > .character-art {
+    justify-self: end;
+  }
+}
+
+/* Below md: the character follows the intro with 16px above it (the last paragraph's margin
+   doesn't add to that), and nothing below it: Journey's 2rem top padding is the 32px before the
+   timeline. */
+@media (width < 48rem) {
+  .about__text > p:last-child {
+    margin-bottom: 0;
+  }
+  .about__top > .character-art {
+    margin: calc(var(--spacing) * 4) auto 0;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .about__intro {
+    padding: 2rem 1rem 0;
+  }
+
+  .about__heading {
+    font-size: 1.8rem;
+  }
+
+  .about__intro p {
+    font-size: 0.95rem;
+  }
+}

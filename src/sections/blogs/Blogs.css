@@ -1,0 +1,801 @@
+/* Blogs section: modern card styling with soft shadows and subtle borders */
+.blogs {
+  padding: 4rem 1.5rem; /* Events uses py-24; trimmed so the section fits about one screen */
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}
+
+@media (width >= 48rem) {
+  .blogs {
+    padding-inline: 3rem; /* md:px-12 */
+  }
+}
+
+.blogs__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Hero ---------- */
+.blogs__hero {
+  background: var(--color-secondary);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  padding: 1rem 1.25rem;
+  color: white;
+}
+
+@media (width >= 48rem) {
+  .blogs__hero {
+    padding: 1.25rem 2rem;
+  }
+}
+
+.blogs__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blogs__eyebrow-badge {
+  flex-shrink: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.blogs__heading {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.blogs__subtext {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+/* ---------- Toolbar ---------- */
+.blogs__toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  min-width: 0;
+}
+
+@media (width >= 80rem) {
+  .blogs__toolbar {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.blogs__search {
+  position: relative;
+  width: 100%;
+  max-width: 24rem;
+  flex-shrink: 0;
+}
+
+.blogs__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+/* Small screens: one row that scrolls inside itself; padding keeps chip shadows visible */
+@media (width < 48rem) {
+  .blogs__chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 0.125rem 0.25rem 0.5rem 0.125rem;
+    margin-inline: -0.125rem;
+  }
+}
+
+/* Pill buttons and links (Clear filters, View all, Write for us). The category chips and the
+   search box use the shared Events styles instead (components/filterStyles.js). */
+.blogs__pill {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-foreground);
+  font: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+.blogs__pill:hover {
+  background: var(--color-background);
+  box-shadow: var(--shadow-md);
+}
+
+.blogs__pill:active {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.blogs__pill:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.blogs__pill--small {
+  padding: 0.25rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* ---------- Shared bits ---------- */
+.blogs__tag {
+  display: inline-block;
+  padding: 0.125rem 0.625rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-background);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.blogs__excerpt {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blogs__arrow {
+  display: inline-block;
+  margin-left: auto;
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: transform 150ms;
+}
+
+/* Graph-paper placeholder: the only gradients in the section */
+.blogs__media {
+  position: relative;
+  background: var(--blogs-tone, var(--color-background));
+  overflow: hidden;
+}
+
+.blogs__media-pattern {
+  position: absolute;
+  inset: 0;
+  --blogs-line: color-mix(in srgb, var(--blogs-tone, var(--color-background)) 80%, var(--color-ink));
+  background-image:
+    repeating-linear-gradient(0deg, var(--blogs-line) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, var(--blogs-line) 0 1px, transparent 1px 24px);
+}
+
+.blogs__media-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Latest ---------- */
+.blogs__latest-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.75rem 0 0.75rem;
+}
+
+.blogs__latest-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  font-weight: 700;
+}
+
+/* Carousel, same layout as Events: arrows below the track on mobile, either side on md+ */
+.blogs__carousel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 0.75rem;
+}
+
+/* Track never widens the page: it scrolls inside itself, scrollbar hidden */
+.blogs__track {
+  display: flex;
+  order: 1;
+  flex-basis: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-block: 0.25rem;
+}
+
+.blogs__track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mobile: one card plus a peek of the next. Padding (not gap) spaces slides; right padding leaves room for the shadow */
+.blogs__slide {
+  display: flex;
+  flex-shrink: 0;
+  width: 85%;
+  padding: 0.125rem 0.75rem 0.5rem 0.25rem;
+  scroll-snap-align: start;
+}
+
+@media (width >= 48rem) {
+  .blogs__slide {
+    width: 50%;
+  }
+}
+
+@media (width >= 68.75rem) {
+  .blogs__slide {
+    width: min(33.333%, 21.5rem);
+  }
+}
+
+/* Modern navigation buttons */
+.blogs__nav {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+.blogs__nav--prev {
+  order: 2;
+}
+
+.blogs__nav--next {
+  order: 3;
+  margin-left: auto;
+}
+
+.blogs__nav:hover {
+  background: var(--color-background);
+  box-shadow: var(--shadow-md);
+}
+
+.blogs__nav:active {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.blogs__nav:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.blogs__nav[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.4;
+  background: var(--color-surface);
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.blogs__nav.is-hidden {
+  visibility: hidden;
+}
+
+.blogs__arrow-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@media (width >= 48rem) {
+  .blogs__carousel {
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+
+  .blogs__track {
+    order: 2;
+    flex: 1 1 0;
+  }
+
+  .blogs__nav {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .blogs__nav--prev {
+    order: 1;
+  }
+
+  .blogs__nav--next {
+    order: 3;
+    margin-left: 0;
+  }
+}
+
+/* Article card: modern clean design */
+.blogs__card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-foreground);
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 200ms ease-in-out;
+}
+
+.blogs__card-media {
+  position: relative;
+  height: 7.5rem;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.blogs__card-media .blogs__media {
+  --blogs-tone: var(--color-secondary);
+  position: absolute;
+  inset: 0;
+}
+
+.blogs__card-tag {
+  position: absolute;
+  top: 0.625rem;
+  left: 0.625rem;
+}
+
+.blogs__readtime {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  padding: 0.125rem 0.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+}
+
+.blogs__card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.875rem 1rem 1rem;
+}
+
+.blogs__card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blogs__card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: auto;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.blogs__avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-background);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.blogs__byline {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+.blogs__author {
+  font-weight: 700;
+}
+
+/* Hover/focus: subtle shadow increase and arrow nudge */
+.blogs__card:hover {
+  transform: none;
+  box-shadow: var(--shadow-xl);
+}
+
+.blogs__card:hover .blogs__arrow {
+  transform: translateX(4px);
+}
+
+.blogs__card:active {
+  transform: none;
+  box-shadow: var(--shadow-lg);
+}
+
+.blogs__card:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* Inside the scroll track the outline would be clipped, so draw it inside the card */
+.blogs__track .blogs__card:focus-visible {
+  outline-offset: -5px;
+}
+
+/* ---------- Empty state ---------- */
+.blogs__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 28rem;
+  margin: 2.5rem auto 0;
+  padding: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-background);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  color: var(--color-foreground);
+}
+
+.blogs__empty-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* ---------- Hero layout + write-for-us button ---------- */
+.blogs__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+@media (width >= 48rem) {
+  .blogs__hero {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.blogs__hero-text {
+  min-width: 0;
+}
+
+/* Primary pill: the "Write for SheBuilds" call to action */
+.blogs__pill--ink,
+.blogs__pill--ink:hover {
+  gap: 0.375rem;
+  background: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+  text-decoration: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.blogs__pill--ink:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+.blogs__pill--ink:focus-visible {
+  outline-color: var(--color-primary);
+}
+
+/* Links that look like pills keep pill text styling */
+a.blogs__pill {
+  text-decoration: none;
+}
+
+.blogs__text-link,
+.blogs__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.5rem;
+  border-radius: var(--radius-sm, 0.25rem);
+  color: var(--color-secondary);
+  font-weight: 700;
+  text-underline-offset: 4px;
+}
+
+.blogs__text-link {
+  text-decoration: underline;
+}
+
+.blogs__back {
+  text-decoration: none;
+}
+
+.blogs__back:hover {
+  text-decoration: underline;
+}
+
+.blogs__text-link:focus-visible,
+.blogs__back:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ---------- Card grid (All blogs, More stories): 1 / 2 / 3 columns ---------- */
+.blogs__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0 0.375rem 0.375rem 0; /* room for the hard shadow */
+  list-style: none;
+}
+
+.blogs__grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+@media (width >= 48rem) {
+  .blogs__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 68.75rem) {
+  .blogs__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Blog pages (/blogs/all, /blogs/:slug) ---------- */
+.blogs-page {
+  padding-top: 2rem;
+}
+
+.blogs-page__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+@media (width >= 48rem) {
+  .blogs-page__head {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.blogs-page__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.blogs-page__subtext {
+  margin: 0.375rem 0 0;
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
+.blogs-page__month {
+  margin-top: 2.5rem;
+}
+
+.blogs-page__month-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.blogs-page__month-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+}
+
+.blogs-page__month-count {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.blog-post {
+  max-width: 45rem;
+  margin-inline: auto;
+}
+
+.blog-post__cover {
+  --blogs-tone: var(--color-accent);
+  height: 10rem;
+  margin: 1rem 0 1.5rem;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-brutal);
+}
+
+.blog-post__title {
+  margin: 0.75rem 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 4.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.blog-post__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.625rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 2px solid var(--color-ink);
+  font-size: 0.9375rem;
+}
+
+.blog-post__more {
+  max-width: 72rem;
+  margin: 3.5rem auto 0;
+}
+
+.blog-post__more .blogs__latest-heading {
+  margin-bottom: 1rem;
+}
+
+.blog-post__more .blogs__back {
+  margin-top: 1rem;
+}
+
+/* Reading typography: black on cream, roomy line height */
+.blog-body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+
+.blog-body > * {
+  margin: 0 0 1.25rem;
+}
+
+.blog-body h2 {
+  margin-top: 2.25rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.blog-body h3 {
+  margin-top: 1.75rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.blog-body ul {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.blog-body li + li {
+  margin-top: 0.375rem;
+}
+
+.blog-body__link {
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.blog-body__link:hover {
+  background: var(--color-accent-alt);
+}
+
+.blog-body__link:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.blogs__empty-copy {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+.blogs__empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blogs__pill,
+  .blogs__nav,
+  .blogs__card,
+  .blogs__arrow {
+    transition: none;
+  }
+
+  .blogs__pill:active,
+  .blogs__nav:active,
+  .blogs__card:hover,
+  .blogs__card:active,
+  .blogs__card:hover .blogs__arrow {
+    transform: none;
+  }
+}

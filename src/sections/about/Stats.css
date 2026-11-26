@@ -1,0 +1,128 @@
+/* Stats strip under the About intro paragraphs (inside .about__text, so it shares their left edge). */
+
+.stats {
+  /* Full-strength palette colours, same as the Journey and Join Us cards */
+  --stats-coral: #fa7b6b;
+  --stats-teal: #4fc4c0;
+  --stats-yellow: #f2bf5a;
+
+  max-width: 760px;
+  margin: 1.75rem 0 1.5rem;
+}
+
+.stats__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch; /* equal heights even though the third block has a note */
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats__block {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  container-type: inline-size; /* lets the number cap itself to the block width */
+  padding: 1.1rem 1.4rem;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-md);
+  box-shadow: 4px 4px 0 var(--color-ink);
+  color: var(--color-ink);
+}
+
+.stats__block--coral { background: var(--stats-coral); }
+.stats__block--teal { background: var(--stats-teal); }
+.stats__block--yellow { background: var(--stats-yellow); }
+
+.stats__number {
+  font-family: var(--font-display);
+  /* 26cqi keeps "1,500+" inside the narrow blocks of the 55% desktop column */
+  font-size: min(clamp(1.9rem, 3.4vw, 2.75rem), 26cqi);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Label and the optional note share a line when there's room */
+.stats__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.stats__label {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.stats__note {
+  padding: 0.15rem 0.55rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 9999px;
+  background: var(--color-surface);
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .stats {
+    margin: 1.25rem 0 1rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .stats__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stats__block {
+    padding: 1rem 1.2rem;
+  }
+}
+
+/* Phones (below md): the three blocks stay in one row, compact and centred, down to 320px */
+@media (width < 48rem) {
+  .stats__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: calc(var(--spacing) * 2);
+  }
+
+  .stats__block {
+    justify-content: center;
+    align-items: center;
+    padding: calc(var(--spacing) * 2);
+    box-shadow: var(--shadow-brutal-sm);
+    text-align: center;
+  }
+
+  /* text-lg, bold, leading-none */
+  .stats__number {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .stats__meta {
+    justify-content: center;
+    gap: calc(var(--spacing) * 1);
+    margin-top: calc(var(--spacing) * 1);
+  }
+
+  /* text-xs, leading-tight */
+  .stats__label {
+    font-size: 0.75rem;
+    line-height: 1.25;
+  }
+}

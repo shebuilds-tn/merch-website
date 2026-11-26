@@ -1,0 +1,146 @@
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router'
+import logo from '../assets/logo.jpeg'
+import { sections, scrollToSection } from '../siteSections.js'
+
+// Each link is its own pill button: blue when active, white otherwise
+// In the mobile menu every pill is the same full-width (capped), 44px+ tall box with centred text
+const linkClass = (isActive, mobile) =>
+  [
+    mobile ? 'flex w-full min-h-11 items-center justify-center text-center' : 'inline-block',
+    'rounded-full border border-gray-200 px-5 py-2 font-body text-foreground shadow-sm',
+    'transition motion-reduce:transition-none hover:shadow-md',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary',
+    isActive ? 'bg-secondary text-white' : 'bg-surface hover:bg-blue-50 focus-visible:bg-blue-50',
+  ].join(' ')
+
+function Navbar() {
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('home')
+  const [scrolled, setScrolled] = useState(false)
+  const navRef = useRef(null)
+  const sentinelRef = useRef(null)
+  const buttonRef = useRef(null)
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  // On the All events page the Events pill stays active; elsewhere the scroll position decides
+  const current = pathname === '/events' ? 'events' : active
+
+  // Publish the rendered navbar height as --nav-height (drives html scroll-padding-top and
+  // section min-height). Measured, not hardcoded: it differs between desktop and mobile.
+  // The mobile panel is absolutely positioned, so opening it doesn't change this.
+  useLayoutEffect(() => {
+    const nav = navRef.current
+    const publish = () => document.documentElement.style.setProperty('--nav-height', `${nav.offsetHeight}px`)
+    publish()
+    const observer = new ResizeObserver(publish)
+    observer.observe(nav)
+    return () => observer.disconnect()
+  }, [])
+
+  // "Scrolled" state once a 20px sentinel at the top of the page leaves the viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry.isIntersecting))
+    observer.observe(sentinelRef.current)
+    return () => observer.disconnect()
+  }, [])
+
+  // Active section = whichever section crosses a thin band at the middle of the viewport.
+  // Sections are at least a screen tall, so exactly one is always in the band.
+  useEffect(() => {
+    const els = sections.map((s) => document.getElementById(s.id)).filter(Boolean)
+    if (!els.length) return
+    const inBand = new Set()
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? inBand.add(e.target.id) : inBand.delete(e.target.id)))
+        const current = sections.find((s) => inBand.has(s.id))
+        if (!current) return
+        setActive(current.id)
+        if (window.location.hash !== `#${current.id}`) {
+          history.replaceState(history.state, '', `#${current.id}`)
+        }
+      },
+      { rootMargin: '-45% 0px -54% 0px' },
+    )
+    els.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [pathname])
+
+  // Escape closes the mobile menu and returns focus to the toggle
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      buttonRef.current?.focus()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
+
+  // Real #anchors work without JS; with JS we smooth-scroll and replace (not push) the hash.
+  // Off the home page (All events, blogs) we go to /#id without a reload; Home then scrolls there.
+  const go = (e, id) => {
+    e.preventDefault()
+    setOpen(false)
+    if (pathname === '/') scrollToSection(id)
+    else navigate({ pathname: '/', hash: `#${id}` })
+  }
+
+  const renderLinks = (mobile = false) =>
+    sections.map(({ id, label }) => (
+      <li key={id} className={mobile ? 'w-full max-w-xs' : undefined}>
+        <a href={`/#${id}`} onClick={(e) => go(e, id)} aria-current={current === id ? 'true' : undefined} className={linkClass(current === id, mobile)}>
+          {label}
+        </a>
+      </li>
+    ))
+
+  return (
+    <>
+      <div ref={sentinelRef} aria-hidden="true" className="absolute top-0 left-0 h-5 w-px pointer-events-none" />
+
+      {/* Border is always 1px (transparent at rest) so the scrolled state causes no layout shift */}
+      <nav
+        ref={navRef}
+        className={`sticky top-0 z-50 bg-white border-b transition motion-reduce:transition-none ${
+          scrolled ? 'border-gray-200 shadow-sm' : 'border-transparent'
+        }`}
+      >
+        <div className="flex items-center justify-between px-6 md:px-12 py-4">
+          <a href="/#home" onClick={(e) => go(e, 'home')} className="shrink-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary">
+            {/* Logo PNG has a white background; multiply blends it into the page color */}
+            <img src={logo} alt="SheBuilds home" className="h-12 md:h-14 w-auto" />
+          </a>
+
+          <ul className="hidden navbar:flex items-center gap-3">{renderLinks()}</ul>
+
+          <button
+            ref={buttonRef}
+            type="button"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((o) => !o)}
+            className="navbar:hidden font-body text-foreground border border-gray-200 rounded-lg px-3 py-2 shadow-sm hover:shadow-md transition"
+          >
+            {open ? 'Close' : 'Menu'}
+          </button>
+        </div>
+
+        {/* Drops down over the page (absolute) so opening it doesn't push content */}
+        {open && (
+          <ul
+            id="mobile-nav"
+            className="navbar:hidden absolute inset-x-0 top-full flex flex-col items-center gap-3 bg-white border-y border-gray-200 px-6 py-6 shadow-lg"
+          >
+            {renderLinks(true)}
+          </ul>
+        )}
+      </nav>
+    </>
+  )
+}
+
+export default Navbar
